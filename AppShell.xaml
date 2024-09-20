@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Shell
+    x:Class="RestaurantManagementApp.AppShell"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:pages="clr-namespace:RestaurantManagementApp.Pages"
+    Shell.FlyoutBehavior="Flyout"
+    Title="RestaurantManagementApp">
+
+    <ShellContent
+        Title="Start"
+        ContentTemplate="{DataTemplate pages:MainPage}"
+        Route="MainPage" />
+    <ShellContent
+     Title="Login"
+     ContentTemplate="{DataTemplate pages:LoginPage}"
+     Route="LoginPage" />
+    <TabBar>
+        <Tab Title="All Items" Icon="menu.png">
+            <ShellContent
+                Title="AllItems"
+                ContentTemplate="{DataTemplate pages:AllItemsPage}"
+                Route="AllItemsPage" />
+        </Tab>
+        <Tab Title="Home" Icon="home.png">
+        <ShellContent
+            Title="Home"
+            ContentTemplate="{DataTemplate pages:HomePage}"
+            Route="HomePage" />
+        </Tab>
+        <Tab Title="Offers" Icon="coupons.png">
+            <ShellContent
+                Title="Home"
+                ContentTemplate="{DataTemplate pages:SplOfferPage}"
+                Route="SplOfferPage" />
+        </Tab>
+        <Tab Title="Customize" Icon="menu.png">
+            <ShellContent
+         Title="Customize"
+         ContentTemplate="{DataTemplate pages:CustomizationPage}"
+         Route="CustomizationPage" />
+        </Tab>
+    </TabBar>
+    
+</Shell>

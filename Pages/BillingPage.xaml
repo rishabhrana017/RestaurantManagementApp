@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:RestaurantManagementApp.ViewModels"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             xmlns:maps="http://schemas.microsoft.com/dotnet/2021/maui/maps"
+             xmlns:models="clr-namespace:RestaurantManagementApp.Models"
+             x:Class="RestaurantManagementApp.Pages.BillingPage"
+             Title="BillingPage"
+             x:DataType="vm:CartViewModel">
+    <Grid>
+
+        <!-- Define Grid Rows -->
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <!-- Top Border -->
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <!-- Map -->
+            <RowDefinition Height="Auto"/>
+            <!-- Bottom Border -->
+        </Grid.RowDefinitions>
+
+        <!-- Top Border with Fixed Height -->
+        <Border Grid.Row="0"
+                StrokeShape="RoundRectangle 40"
+                StrokeThickness="0"
+                Padding="3"
+                Margin="5"
+                BackgroundColor="Transparent"
+                VerticalOptions="Start"
+                HorizontalOptions="Center"
+                HeightRequest="50">
+            <!-- Fixed height -->
+            <Grid ColumnDefinitions="Auto, *, Auto">
+                <Image Grid.Column="0"
+                       Source="location.png"
+                       Aspect="AspectFit"
+                       VerticalOptions="Center"
+                       Margin="0,0,10,0">
+                    <Image.Behaviors>
+                        <toolkit:IconTintColorBehavior TintColor="DarkGray"/>
+                    </Image.Behaviors>
+                </Image>
+                <Entry Grid.Column="1"
+                       x:Name="address"
+                       Placeholder="Enter your Address..."
+                       PlaceholderColor="Black"
+                       HorizontalOptions="FillAndExpand"
+                       VerticalOptions="Center"
+                       WidthRequest="240"/>
+                <!-- Fixed width -->
+                <Button Grid.Column="2"
+                        CornerRadius="22"
+                        Text="Confirm"
+                        TextColor="Black"
+                        HorizontalOptions="End"
+                        Padding="25,10"
+                        BackgroundColor="LightGray"
+                        VerticalOptions="Center"/>
+            </Grid>
+        </Border>
+
+        <!-- Map -->
+        <maps:Map Grid.Row="1"
+                  x:Name="map"
+                  MapType="Street"
+                  IsShowingUser="True"
+                  IsTrafficEnabled="True"/>
+
+        <!-- Headers for Items -->
+        <Grid Grid.Row="2"
+              ColumnDefinitions="*,*,*"
+              Padding="10"
+              Margin="20,0"
+              ColumnSpacing="50">
+            <Label Grid.Column="0"
+                   Text="Item"
+                   FontAttributes="Bold"
+                   HorizontalTextAlignment="Center"/>
+            <Label Grid.Column="1"
+                   Text="Quantity"
+                   FontAttributes="Bold"
+                   HorizontalTextAlignment="Center"/>
+            <Label Grid.Column="2"
+                   Text="Amount"
+                   FontAttributes="Bold"
+                   HorizontalTextAlignment="Center"/>
+        </Grid>
+
+        <!-- Items CollectionView -->
+        <CollectionView Grid.Row="2"
+                x:Name="CollectionView"
+                ItemsSource="{Binding Items}"
+                IsVisible="{Binding IsCollectionNotEmpty}"
+                Margin="10,20"
+                HorizontalOptions="Center">
+
+            <CollectionView.ItemsLayout>
+                <LinearItemsLayout Orientation="Vertical" ItemSpacing="1"/>
+            </CollectionView.ItemsLayout>
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="models:Item">
+                    <Grid ColumnDefinitions="*,*,*"
+                  RowDefinitions="Auto"
+                  Padding="20,5"
+                  ColumnSpacing="40">
+
+                        <!-- Background Image -->
+
+                        <!-- Ensure it is behind other elements -->
+
+                        <!-- Item Data Row -->
+                        <Label Grid.Row="0"
+                       Grid.Column="0"
+                       Text="{Binding Name}"
+                       HorizontalTextAlignment="Center"
+                       VerticalTextAlignment="Center"/>
+                        <Label Grid.Row="0"
+                       Grid.Column="1"
+                       Text="{Binding CartQuantity}"
+                       HorizontalTextAlignment="Center"
+                       VerticalTextAlignment="Center"/>
+                        <Label Grid.Row="0"
+                       Grid.Column="2"
+                       Text="{Binding Amount}"
+                       HorizontalTextAlignment="Center"
+                       VerticalTextAlignment="Center"/>
+                    </Grid>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+
+        <!-- Distance, Delivery Charges, and Total Amount Display -->
+
+
+        <!-- Bottom Border -->
+        <Border Grid.Row="3"
+                StrokeShape="RoundRectangle 40"
+                StrokeThickness="0"
+                Padding="10"
+                Margin="5"
+                BackgroundColor="#207ad5"
+                VerticalOptions="End">
+            <Grid ColumnDefinitions="*,*"
+                  RowDefinitions="*,*">
+                <Label Grid.Column="0"
+                       Grid.Row="0"
+                       Padding="18,0"
+                       TextColor="White"
+                       VerticalOptions="Center">
+                    <Label.FormattedText>
+                        <FormattedString>
+                            <Span Text="Delivery charges :"
+                                  FontSize="14"/>
+                            <Span Text="{Binding DeliveryCharge, StringFormat='₹{0:N2}'}"
+                                  FontSize="16"
+                                  FontAttributes="Bold"/>
+                        </FormattedString>
+                    </Label.FormattedText>
+                </Label>
+                <Label Grid.Column="0"
+                       Grid.Row="1"
+                       Padding="18,0"
+                       TextColor="White"
+                       VerticalOptions="Center">
+                    <Label.FormattedText>
+                        <FormattedString>
+                            <Span Text="Total : "
+                                  FontSize="14"/>
+                            <Span Text="{Binding TotalAmountWithDelivery, StringFormat='₹{0:N2}'}"
+                                  FontSize="16"
+                                  FontAttributes="Bold"/>
+                        </FormattedString>
+                    </Label.FormattedText>
+                </Label>
+                <Button Grid.Column="1"
+                        Grid.RowSpan="2"
+                        Text="Place Order"
+                        TextColor="Black"
+                        BackgroundColor="#c8e0f6"
+                        CornerRadius="22"
+                        VerticalOptions="Center"
+                        HorizontalOptions="End"
+                        Padding="25,10"
+                        Command="{Binding CheckoutCommand}"/>
+            </Grid>
+        </Border>
+
+    </Grid>
+
+</ContentPage>

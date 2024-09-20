@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="RestaurantManagementApp.Pages.LoginPage"
+             xmlns:vm="clr-namespace:RestaurantManagementApp.ViewModels"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             xmlns:models="clr-namespace:RestaurantManagementApp.Models"
+             Title="Login Page"
+             x:DataType="vm:LoginViewModel"
+             Shell.NavBarIsVisible="False"
+             Shell.TabBarIsVisible="False">
+    <Grid RowDefinitions="220,*,50"
+          BackgroundColor="White">
+        <Path Stroke="#fff"
+              Data="m0.30001,0l449,0l0,128.48327c-122.5,64.30167 -332.5,65.89076 -449,7.2429c0,-45.25313 0,-90.47304 0,-135.72617z"
+              Fill="#40a8f7"/>
+        <StackLayout>
+            <Frame BackgroundColor="SkyBlue" HeightRequest="60" WidthRequest="60" Padding="0" CornerRadius="30" Margin="0,100,0,0" HorizontalOptions="Center">
+                <Image Source="avatar.png" Aspect="AspectFill" Margin="0"/>
+            </Frame>
+        </StackLayout>
+        <Grid RowSpacing="5" Grid.Row="1" Margin="50,20,20,0" RowDefinitions="*,50,50,Auto,40,40,*">
+
+
+            <StackLayout Orientation="Horizontal" VerticalOptions="Center" HorizontalOptions="FillAndExpand" Spacing="10" Grid.Row="2" >
+                <BoxView HeightRequest="2" BackgroundColor="LightGray" HorizontalOptions="FillAndExpand" VerticalOptions="Center"/>
+                <Label Text="Log in or sign up" HorizontalOptions="Center" VerticalOptions="Center" TextColor="Black" FontAttributes="Bold" FontSize="15"/>
+                <BoxView HeightRequest="2" BackgroundColor="LightGray" HorizontalOptions="FillAndExpand" VerticalOptions="Center"/>
+            </StackLayout>
+            <StackLayout Grid.Row="3" Orientation="Vertical" HorizontalOptions="CenterAndExpand">
+                <Frame BackgroundColor="Transparent" BorderColor="LightBlue" Padding="0" HorizontalOptions="FillAndExpand" CornerRadius="30">
+                    <StackLayout Orientation="Horizontal">
+                        <Frame BackgroundColor="SkyBlue" HeightRequest="40" WidthRequest="40" CornerRadius="30" Padding="0" Margin="5">
+                            <Image Source="user.png" Aspect="AspectFill" Margin="0"/>
+                        </Frame>
+                        <!--<Entry Text="+91" FontAttributes="Bold" TextColor="Black" IsReadOnly="True" VerticalOptions="Center" HorizontalOptions="Center"/>-->
+                        <Entry Text="{Binding UserName}"  Placeholder="Username" TextColor="Black" FontAttributes="Bold" VerticalOptions="Center" HorizontalOptions="FillAndExpand"
+                               Margin="0,0,20,0" WidthRequest="225" />
+                    </StackLayout>
+                </Frame>
+                <Frame BackgroundColor="Transparent" BorderColor="LightBlue" Padding="0" HorizontalOptions="FillAndExpand" CornerRadius="30">
+                    <StackLayout Orientation="Horizontal">
+                        <Frame BackgroundColor="SkyBlue" HeightRequest="40" WidthRequest="40" CornerRadius="30" Padding="0" Margin="5">
+                            <Image Source="pwd.png" Aspect="AspectFill" Margin="0"/>
+                        </Frame>
+                        <!--<Entry Text="+91" FontAttributes="Bold" TextColor="Black" IsReadOnly="True" VerticalOptions="Center" HorizontalOptions="Center"/>-->
+                        <Entry Text="{Binding Password}" Placeholder="Password" TextColor="Black" FontAttributes="Bold" VerticalOptions="Center" HorizontalOptions="FillAndExpand"
+               Margin="0,0,20,0" WidthRequest="225" />
+                    </StackLayout>
+                </Frame>
+                <Button Text="Continue" Background="DodgerBlue" FontSize="20" TextColor="White" FontAttributes="Bold" CornerRadius="30" WidthRequest="220" Margin="0,15,0,0" Command="{Binding Source={x:RelativeSource AncestorType={x:Type vm:LoginViewModel}},
+                                                                                Path=LoginCommand}"/>
+                <StackLayout Orientation="Horizontal" VerticalOptions="Center" HorizontalOptions="FillAndExpand" Spacing="10" Grid.Row="2" Margin="0,40,0,0" >
+                    <BoxView HeightRequest="2" BackgroundColor="LightGray" HorizontalOptions="FillAndExpand" VerticalOptions="Center"/>
+                    <Label Text="or" HorizontalOptions="Center" VerticalOptions="Center" TextColor="Black" FontAttributes="Bold" FontSize="15"/>
+                    <BoxView HeightRequest="2" BackgroundColor="LightGray" HorizontalOptions="FillAndExpand" VerticalOptions="Center"/>
+                </StackLayout>
+
+                <HorizontalStackLayout  Spacing="30" HorizontalOptions="Center" VerticalOptions="Center">
+                    <Frame BackgroundColor="White" HeightRequest="40" WidthRequest="40" Padding="0" CornerRadius="30" Margin="0,100,0,0" HorizontalOptions="Center">
+                        <ImageButton Source="google.png" Aspect="AspectFill" Margin="0" Clicked="GoogleLogin_Clicked"/>
+
+                    </Frame>
+                    <Frame BackgroundColor="White" HeightRequest="40" WidthRequest="40" Padding="0" CornerRadius="30" Margin="0,100,0,0" HorizontalOptions="Center">
+                        <Image Source="facebook.png" Aspect="AspectFill" Margin="0"/>
+                    </Frame>
+                    <Frame BackgroundColor="White" HeightRequest="40" WidthRequest="40" Padding="0" CornerRadius="30" Margin="0,100,0,0" HorizontalOptions="Center">
+                        <Image Source="email.png" Aspect="AspectFill" Margin="0"/>
+                    </Frame>
+
+                </HorizontalStackLayout>
+                <StackLayout Orientation="Horizontal" HorizontalOptions="CenterAndExpand" Margin="0,60,0,0" Padding="0">
+                    <Label Text="New User?" TextColor="DarkGray" FontSize="Small"/>
+                    <Label Text=" Sign Up" TextColor="#1D8348" FontAttributes="Bold" FontSize="Small"/>
+                </StackLayout>
+            </StackLayout>
+        </Grid>
+    </Grid>
+</ContentPage> 

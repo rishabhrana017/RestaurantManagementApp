@@ -1,0 +1,59 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="RestaurantManagementApp.Pages.MainPage"
+             Shell.NavBarIsVisible="False"
+             BackgroundColor="#78b1eb">
+
+    <Grid RowDefinitions="Auto , * , Auto"
+          Padding="15,25">
+        <Label Grid.Row="0"
+               Text="Coder's Delight" 
+               FontSize="45"
+               FontAttributes="Bold"
+               HorizontalOptions="Center"/>
+        <Image Grid.Row="1"
+               x:Name="pzimg"
+               Source="main_pizza.png"
+               HeightRequest="250"
+               WidthRequest="250"
+               HorizontalOptions="Center"
+               VerticalOptions="Center">
+            <!--<Image.GestureRecognizers>
+                <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped">
+                    
+                </TapGestureRecognizer>                
+            </Image.GestureRecognizers>-->
+        </Image>
+        <VerticalStackLayout Grid.Row="2"
+                             Spacing="15">
+            <Label Text="The Cafe for the Coders"
+                   x:Name="heading"
+                   FontSize="30"
+                   FontAttributes="Bold"/>
+            <Label Text="Welcome to the never ending cycle of {Code, Brew, Sleep,Repeat}"
+                   FontSize="18"
+                   LineHeight="1.2"/>
+            <Border StrokeShape="RoundRectangle 25"
+                    StrokeThickness="0"
+                    BackgroundColor="#207ad5"
+                    HeightRequest="50">
+                <Border.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="OnGetStarted_Tapped" />
+                </Border.GestureRecognizers>
+                <HorizontalStackLayout HorizontalOptions="Center" 
+                                       VerticalOptions="Center" 
+                                       Spacing="10">
+                    <Label Text="Get Started"
+                           VerticalOptions="Center"
+                           FontSize="18"/>
+                    <Image Source="next_arrow.png"
+                           VerticalOptions="Center"
+                           HeightRequest="30"/>
+                </HorizontalStackLayout>
+            </Border>
+
+        </VerticalStackLayout>
+
+    </Grid>
+</ContentPage>

@@ -1,0 +1,11 @@
+﻿global using System;
+global using System.Collections.ObjectModel;
+global using CommunityToolkit.Mvvm.ComponentModel;
+global using RestaurantManagementApp.Models;
+global using RestaurantManagementApp.Services;
+global using RestaurantManagementApp.ViewModels;
+global using RestaurantManagementApp.Pages;
+global using CommunityToolkit.Mvvm.Input;
+global using CommunityToolkit.Maui.Alerts;
+global using CommunityToolkit.Maui.Core;
+global using CommunityToolkit.Maui.Views;

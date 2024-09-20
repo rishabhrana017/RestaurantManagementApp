@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<toolkit:Popup xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+               xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+               x:Class="RestaurantManagementApp.Pages.CustomizationPagePopup"
+               xmlns:vm="clr-namespace:RestaurantManagementApp.ViewModels"
+               xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+               xmlns:models="clr-namespace:RestaurantManagementApp.Models"
+               x:DataType="vm:CustomizationViewModel">
+    <VerticalStackLayout Padding="10">
+        <ScrollView Orientation="Horizontal">
+            <HorizontalStackLayout HeightRequest="300" VerticalOptions="Center">
+                <FlexLayout BindableLayout.ItemsSource="{Binding Customization}"
+                            Wrap="Wrap"
+                            Direction="Column">
+                    <BindableLayout.ItemTemplate>
+                        <DataTemplate x:DataType="models:Customization">
+                            <Border 
+                                StrokeShape="RoundRectangle 10"
+                                StrokeThickness="0"
+                                BackgroundColor="#c8e0f6"
+                                Padding="10"
+                                Margin="2">
+                                <Grid RowDefinitions="Auto,Auto,Auto,Auto"
+                                      RowSpacing="5">
+                                    <Image Grid.Row="0"
+                                           Source="{Binding Image}"
+                                           HeightRequest="150"
+                                           WidthRequest="130"/>
+                                    <Label Grid.Row="1"
+                                           Text="{Binding Name}"
+                                           HorizontalOptions="Center"
+                                           FontSize="15"/>
+                                    <Grid Grid.Row="2"
+                                          ColumnDefinitions="*,*">
+                                        <Label Grid.Column="0"
+                                               Text="{Binding Price, StringFormat='₹{0:N2}'}"
+                                               FontAttributes="Bold"
+                                               VerticalOptions="Center"/>
+                                        <HorizontalStackLayout Grid.Column="1"
+                                                               HorizontalOptions="End"
+                                                               Spacing="2"
+                                                               VerticalOptions="Center">
+                                            <Label Text="4"/>
+                                            <Image Source="star.png"
+                                                   HeightRequest="15"
+                                                   WidthRequest="15">
+                                                <Image.Behaviors>
+                                                    <toolkit:IconTintColorBehavior TintColor="DarkGoldenrod" />
+                                                </Image.Behaviors>
+                                            </Image>
+                                        </HorizontalStackLayout>
+                                    </Grid>
+                                    <!-- Add Button -->
+                                    <Button Grid.Row="3"
+                                            Text="Add"
+                                            Command="{Binding Source={x:RelativeSource AncestorType={x:Type vm:CustomizationViewModel}}, Path=AddCustomizationCommand}"
+                                            CommandParameter="{Binding .}"
+                                            IsEnabled="{Binding IsButtonEnabled}"
+                                            BackgroundColor="#207ad5"
+                                            TextColor="White"
+                                            CornerRadius="20"
+                                            Padding="10"/>
+                                </Grid>
+                            </Border>
+                        </DataTemplate>
+                    </BindableLayout.ItemTemplate>
+                </FlexLayout>
+            </HorizontalStackLayout>
+        </ScrollView>
+    </VerticalStackLayout>
+</toolkit:Popup>

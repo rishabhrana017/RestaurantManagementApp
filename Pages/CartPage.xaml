@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:RestaurantManagementApp.ViewModels"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             xmlns:models="clr-namespace:RestaurantManagementApp.Models"
+             x:Class="RestaurantManagementApp.Pages.CartPage"
+             Title="Cart"
+             x:DataType="vm:CartViewModel"
+             BackgroundColor="#c8e0f6">
+
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Clear Cart"
+                     Command="{Binding ClearCartCommand}"/>
+    </ContentPage.ToolbarItems>
+
+    <Grid>
+        
+
+        <ScrollView>
+            <VerticalStackLayout Padding="20">
+
+                <CollectionView x:Name="CollectionView"
+                                ItemsSource="{Binding Items}"
+                                IsVisible="{Binding IsCollectionNotEmpty}">
+                    <CollectionView.ItemsLayout>
+                        <LinearItemsLayout Orientation="Vertical"
+                                           ItemSpacing="10"/>
+                    </CollectionView.ItemsLayout>
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate x:DataType="models:Item">
+                            <Border StrokeShape="RoundRectangle 15"
+                                    StrokeThickness="0"
+                                    BackgroundColor="#207ad5"
+                                    Padding="10">
+                                <Grid ColumnDefinitions="25,Auto,50,*,80,25">
+                                    <Label Grid.Column="0"
+                                           Text="{Binding CartQuantity}"
+                                           VerticalOptions="Center"
+                                           HorizontalOptions="Center"
+                                           FontSize="18"
+                                           FontAttributes="Bold"/>
+                                    <Label Grid.Column="1"
+                                           Text="x"
+                                           VerticalOptions="Center"
+                                           HorizontalOptions="Center"
+                                           FontSize="18"
+                                           FontAttributes="Bold"/>
+                                    <Image Grid.Column="2"
+                                           Source="{Binding Image}"
+                                           HeightRequest="25"
+                                           WidthRequest="25"
+                                           VerticalOptions="Center"
+                                           HorizontalOptions="Center"/>
+                                    <VerticalStackLayout Grid.Column="3"
+                                                         VerticalOptions="Center"
+                                                         Spacing="2">
+                                        <Label Text="{Binding Name}"/>
+                                        <Label Text="{Binding Price, StringFormat='₹{0:N2}'}"
+                                               FontSize="12"/>
+                                    </VerticalStackLayout>
+                                    <Label Grid.Column="4"
+                                           Text="{Binding Amount, StringFormat='₹{0:N2}'}"
+                                           VerticalOptions="Center"
+                                           HorizontalOptions="Center"
+                                           FontAttributes="Bold"
+                                           FontSize="15"/>
+                                    <Image Grid.Column="5"
+                                           Source="trash.png"
+                                           HeightRequest="25"
+                                           WidthRequest="25">
+                                        <Image.Behaviors>
+                                            <toolkit:IconTintColorBehavior TintColor="Red" />
+                                        </Image.Behaviors>
+                                        <Image.GestureRecognizers>
+                                            <TapGestureRecognizer Command="{Binding Source={x:RelativeSource AncestorType={x:Type vm:CartViewModel}},
+                                                Path=RemoveCartItemCommand}"
+                                                                  CommandParameter="{Binding Name}"/>
+                                        </Image.GestureRecognizers>
+                                    </Image>
+                                </Grid>
+                            </Border>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+
+                <ContentView IsVisible="{Binding IsCollectionEmpty}"
+                             VerticalOptions="Center"
+                             HorizontalOptions="Center">
+                    <VerticalStackLayout HorizontalOptions="Center"
+                                         VerticalOptions="Center"
+                                         Padding="20"
+                                         Spacing="20">
+                        <BoxView HeightRequest="100"
+                                 Color="#c8e0f6"/>
+                        <Label Text="No Items in the cart"
+                               FontSize="25"
+                               TextColor="Grey"
+                               HorizontalTextAlignment="Center"/>
+                        <Button Text="View All Items"
+                                HorizontalOptions="Center"
+                                BackgroundColor="#207ad5"
+                                Clicked="viewAllBtn_Clicked"/>
+                    </VerticalStackLayout>
+                </ContentView>
+
+               
+
+            </VerticalStackLayout>
+        </ScrollView>
+
+        <!--<Border StrokeShape="RoundRectangle 40"
+         StrokeThickness="0"
+         Padding="10"
+         Margin="0,0,0,80"
+         BackgroundColor="#207ad5"
+         VerticalOptions="End">
+            <Grid ColumnDefinitions="*,*">
+                <VerticalStackLayout Grid.Column="0"
+                     Padding="18,0"
+                     Spacing="5"
+                     VerticalOptions="Center">
+                    <Entry Grid.Column="0"
+                           Placeholder="Enter Coupon Code"
+                           TextColor="White"
+                           Text="{Binding CouponCode}"
+                           VerticalOptions="CenterAndExpand"
+                           HorizontalOptions="CenterAndExpand">
+                        
+                    </Entry>
+
+                </VerticalStackLayout>
+                <Button Grid.Column="1"
+                        Text="Apply Coupon"
+                        TextColor="Black"
+                        BackgroundColor="#c8e0f6"
+                        CornerRadius="22"
+                        VerticalOptions="Center"
+                        HorizontalOptions="End"
+                        Padding="25,10"
+                        Command="{Binding ApplyCouponCodeCommand}"/>
+            </Grid>
+            
+        </Border>-->
+        <Border StrokeShape="RoundRectangle 20"
+        StrokeThickness="1" 
+            Padding="5"
+            
+            Margin="10"
+            
+            BackgroundColor="#207ad5"
+        VerticalOptions="End">
+
+            <Grid ColumnDefinitions="*,*" 
+                RowDefinitions="Auto,Auto"
+                
+                RowSpacing="5"
+                
+                ColumnSpacing="15">
+                
+                
+                <Label Grid.Column="0"
+               Grid.Row="0"
+               Padding="18,0"
+               Margin="0"
+               TextColor="White"
+               VerticalOptions="Center"
+               Text="Total :"
+               FontAttributes="Bold"
+               FontSize="20"
+               HorizontalOptions="Start"/>
+
+                <Button Grid.Column="1"
+                Grid.Row="0"
+                Text="Apply Coupon"
+                TextColor="Black"
+                BackgroundColor="#c8e0f6"
+                CornerRadius="22"
+                Padding="20,10"
+                Command="{Binding ShowCouponPopupCommand}"
+                VerticalOptions="Center"
+                HorizontalOptions="End"/>
+
+                <Label Grid.Column="0"
+               Grid.Row="1"
+               Padding="18,0"
+               Margin="0"
+               TextColor="White"
+               VerticalOptions="Center"
+               Text="{Binding TotalAmount, StringFormat='₹{0:N2}'}"
+               FontAttributes="Bold"
+               FontSize="20"
+               HorizontalOptions="Start"/>
+
+                <Button Grid.Column="1"
+                Grid.Row="1"
+                Text="Place Order"
+                TextColor="Black"
+                BackgroundColor="#c8e0f6"
+                CornerRadius="22"
+                Padding="20,10"
+                Command="{Binding PlaceOrderCommand}"
+                VerticalOptions="Center"
+                HorizontalOptions="End"/>
+
+            </Grid>
+        </Border>
+
+
+    </Grid>
+</ContentPage>

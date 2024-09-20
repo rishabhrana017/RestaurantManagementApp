@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:RestaurantManagementApp.ViewModels"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             xmlns:models="clr-namespace:RestaurantManagementApp.Models"
+             x:Class="RestaurantManagementApp.Pages.DetailPage"
+             Title=""
+             Shell.NavBarIsVisible="False"
+             x:DataType="vm:DetailsViewModel">
+    <ContentPage.Behaviors>
+        <toolkit:StatusBarBehavior StatusBarColor="White"
+                                   StatusBarStyle="DarkContent"/>
+    </ContentPage.Behaviors>
+    <Grid>
+        <ScrollView Padding="15">
+            <VerticalStackLayout>
+                <Image Source="{Binding Item.Image}"
+                       HeightRequest="200"
+                       WidthRequest="200"
+                       VerticalOptions="Center"
+                       HorizontalOptions="Center"/>
+                <Label Text="{Binding Item.Name}"
+                       FontSize="20"
+                       FontAttributes="Bold"
+                       HorizontalOptions="Center"/>
+                <Grid ColumnDefinitions="*,*">
+                    <Label Grid.Column="0"
+                           Text="{Binding Item.Price , StringFormat='₹{0:N2}'}"
+                           FontAttributes="Bold"
+                           FontSize="18"/>
+                    <HorizontalStackLayout Grid.Column="1"
+                                           HorizontalOptions="End"
+                                           Spacing="2"
+                                           VerticalOptions="Center">
+                        <Label Text="4"/>
+                        <Image Source="star.png"
+                               HeightRequest="15"
+                               WidthRequest="15">
+                            <Image.Behaviors>
+                                <toolkit:IconTintColorBehavior TintColor="DarkGoldenrod" />
+                            </Image.Behaviors>
+                        </Image>
+                    </HorizontalStackLayout>
+                </Grid>
+                <HorizontalStackLayout>
+                <Label Text="Description"
+                       FontSize="15"
+                       FontAttributes="Bold"
+                       Margin="0,10"
+                       HorizontalOptions="Start"/>
+                    <Label Text="Customize your Order"
+                           FontSize="15"
+                           FontAttributes="Bold"
+                           HorizontalOptions="End"
+                           VerticalOptions="Center"
+                           Margin="130,0,0,0"
+                           TextDecorations="Underline"
+                           TextColor="Blue">
+                        <Label.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding ShowCustomizationPopupCommand}" />
+                        </Label.GestureRecognizers>                        
+                    </Label>
+                </HorizontalStackLayout>
+                <Label Text="Our Veg Burger is a flavorful, plant-based delight. It features a hearty patty made from fresh vegetables,
+                       legumes, and spices, delivering a satisfying and nutritious bite. Served in a toasted whole-grain bun, it's layered with crisp lettuce, juicy tomato, and crunchy pickles. A creamy avocado spread adds richness,
+                       while tangy vegan mayo enhances the flavor.Perfect for a guilt-free meal, it pairs wonderfully with sweet potato fries or a fresh salad.Enjoy a tasty and nutritious option that’s perfect for any time of day."
+                       FontSize="14"
+                       LineHeight="1.5"/>
+            </VerticalStackLayout>
+        </ScrollView>
+        <Border StrokeThickness="0"
+                StrokeShape="RoundRectangle 30,30,0,0"
+                BackgroundColor="#207ad5"
+                Margin="-1"
+                VerticalOptions="End"
+                HeightRequest="150"
+                Padding="15">
+            <Grid RowDefinitions="Auto,Auto"
+                  ColumnDefinitions="*,*">
+                <Label Grid.Row="0"
+                       Grid.Column="0"
+                       Text="{Binding TotalAmount,StringFormat='₹{0:N2}'}"
+                       FontSize="20"
+                       TextColor="White"
+                       FontAttributes="Bold"
+                       VerticalOptions="Center"/>
+                <Grid Grid.Row="0"
+                      Grid.Column="1"
+                      ColumnDefinitions="50,40,50"
+                      HorizontalOptions="End"
+                      VerticalOptions="Center">
+                    <ImageButton Grid.Column="0"
+                           Source="decrement.png"
+                           HeightRequest="40"
+                           WidthRequest="40"
+                           VerticalOptions="Center"
+                           Padding="0"
+                           Command="{Binding RemoveFromCartCommand}"/>
+                    <Label Grid.Column="1"
+                           Text="{Binding Item.CartQuantity}"
+                           TextColor="White"
+                           VerticalOptions="Center"
+                           HorizontalOptions="Center"
+                           FontSize="25"/>
+                    <ImageButton Grid.Column="2"
+                                 Source="increment.png"
+                                 HeightRequest="40"
+                                 WidthRequest="40"
+                                 VerticalOptions="Center"
+                                 Padding="0"
+                                 Command="{Binding AddToCartCommand}"/>
+
+                </Grid>
+
+                <Button Grid.Row="1"
+                        Grid.ColumnSpan="2"
+                        Text="View Cart"
+                        BackgroundColor="Goldenrod"
+                        HorizontalOptions="Center"
+                        CornerRadius="22"
+                        TextColor="White"
+                        Padding="80,10"
+                        Margin="0,20"
+                        Command="{Binding ViewCartCommand}"/>
+
+            </Grid>
+
+        </Border>
+        <ImageButton Source="next_arrow.png"
+                     VerticalOptions="Start"
+                     HorizontalOptions="Start"
+                     Margin="15"
+                     RotationY="180"
+                     Clicked="ImageButton_Clicked">
+            <ImageButton.Behaviors>
+                <toolkit:IconTintColorBehavior TintColor="DarkGoldenrod"/>
+            </ImageButton.Behaviors>
+        </ImageButton>
+    </Grid>
+</ContentPage>
