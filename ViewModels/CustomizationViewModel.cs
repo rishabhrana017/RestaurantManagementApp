@@ -1,8 +1,4 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
-using System;
-using System.Collections.ObjectModel;
-
-namespace RestaurantManagementApp.ViewModels
+﻿namespace RestaurantManagementApp.ViewModels
 {
     public partial class CustomizationViewModel : ObservableObject
     {

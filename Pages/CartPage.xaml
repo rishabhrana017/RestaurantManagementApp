@@ -22,7 +22,7 @@
 
                 <CollectionView x:Name="CollectionView"
                                 ItemsSource="{Binding Items}"
-                                IsVisible="{Binding IsCollectionNotEmpty}">
+                               >
                     <CollectionView.ItemsLayout>
                         <LinearItemsLayout Orientation="Vertical"
                                            ItemSpacing="10"/>
@@ -60,7 +60,7 @@
                                                FontSize="12"/>
                                     </VerticalStackLayout>
                                     <Label Grid.Column="4"
-                                           Text="{Binding Amount, StringFormat='₹{0:N2}'}"
+                                           Text="{Binding CustomizedPrice, StringFormat='₹{0:N2}'}"
                                            VerticalOptions="Center"
                                            HorizontalOptions="Center"
                                            FontAttributes="Bold"

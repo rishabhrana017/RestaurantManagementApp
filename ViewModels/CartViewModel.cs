@@ -1,14 +1,4 @@
-﻿using System;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Windows.Input;
-using CommunityToolkit.Mvvm.Input;
-using CommunityToolkit.Mvvm.ComponentModel;
-using Microsoft.Maui.ApplicationModel;
-using CommunityToolkit.Maui.Views;
-
-namespace RestaurantManagementApp.ViewModels
+﻿namespace RestaurantManagementApp.ViewModels
 {
     public partial class CartViewModel : ObservableObject
     {
@@ -19,17 +9,17 @@ namespace RestaurantManagementApp.ViewModels
         [ObservableProperty]
         private double _totalAmount;
 
+        
+
         [ObservableProperty]
         private double _distance;
 
         [ObservableProperty]
         private double _deliveryCharge;
 
-        // Total amount including delivery charge
         public double TotalAmountWithDelivery => TotalAmount + DeliveryCharge;
 
         public bool IsCollectionEmpty => Items.Count == 0;
-
         public bool IsCollectionNotEmpty => !IsCollectionEmpty;
 
         [ObservableProperty]
@@ -47,18 +37,22 @@ namespace RestaurantManagementApp.ViewModels
         }
 
         [RelayCommand]
-        private void UpdateCartItem(Item item)
+        public void UpdateCartItem(Item item)
         {
             var existingItem = Items.FirstOrDefault(i => i.Name == item.Name);
             if (existingItem != null)
             {
                 existingItem.CartQuantity = item.CartQuantity;
+                existingItem.CustomizationPriceTotal = item.CustomizationPriceTotal; // Include customization price
+                CartItemUpdated?.Invoke(this, existingItem);
             }
             else
             {
                 Items.Add(item.Clone());
+                CartItemUpdated?.Invoke(this, item);
             }
-            RecalculateTotalAmount();
+
+            RecalculateTotalAmount(); // Recalculate the total whenever an item is updated
             OnPropertyChanged(nameof(IsCollectionEmpty));
             OnPropertyChanged(nameof(IsCollectionNotEmpty));
         }
@@ -125,11 +119,10 @@ namespace RestaurantManagementApp.ViewModels
             OnPropertyChanged(nameof(IsCollectionNotEmpty));
         }
 
-        // Modify this method to reflect customization prices
         private void RecalculateTotalAmount()
         {
-            // Calculate total based on each item's price, quantity, and customization price
-            TotalAmount = Items.Sum(i => (i.Price * i.CartQuantity) + (i.CustomizationPrice * i.CartQuantity));
+            // Updated to include the customization price in the total
+            TotalAmount = Items.Sum(i => i.Amount + (i.CustomizationPriceTotal * i.CartQuantity));
             OnPropertyChanged(nameof(TotalAmountWithDelivery));
             OnPropertyChanged(nameof(TotalAmount));
         }
@@ -172,20 +165,22 @@ namespace RestaurantManagementApp.ViewModels
                         discountPercentage = 0.15;
                         break;
                     case DayOfWeek.Saturday:
-                    case DayOfWeek.Sunday:
                         discountPercentage = 0.10;
                         break;
+                    case DayOfWeek.Sunday:
+                        discountPercentage = 0.25;
+                        break;
                 }
-                TotalAmount = TotalAmount * (1 - discountPercentage);
+                var discount = TotalAmount * discountPercentage;
+                TotalAmount -= discount;
+                await Toast.Make("Coupon Applied Successfully!", ToastDuration.Short).Show();
                 _isCouponApplied = true;
-                await Toast.Make("Discount applied successfully!", ToastDuration.Short).Show();
+                OnPropertyChanged(nameof(IsCouponApplied));
             }
             else
             {
-                await Toast.Make("Invalid coupon code!", ToastDuration.Short).Show();
+                await Toast.Make("Invalid Coupon Code!", ToastDuration.Short).Show();
             }
-
-            OnPropertyChanged(nameof(TotalAmount));
         }
     }
 }

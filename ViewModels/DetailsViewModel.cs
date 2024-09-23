@@ -1,16 +1,10 @@
-﻿using CommunityToolkit.Maui.Views;
-using RestaurantManagementApp.Pages;
-using RestaurantManagementApp.Services;
-using System;
-using System.Threading.Tasks;
-
-namespace RestaurantManagementApp.ViewModels
+﻿namespace RestaurantManagementApp.ViewModels
 {
     [QueryProperty(nameof(Item), nameof(Item))]
     public partial class DetailsViewModel : ObservableObject, IDisposable
     {
         private readonly CartViewModel _cartViewModel;
-        private readonly CustomizationService _customizationService; // Inject CustomizationService
+        private readonly CustomizationService _customizationService;
 
         public DetailsViewModel(CartViewModel cartViewModel, CustomizationService customizationService)
         {
@@ -33,19 +27,24 @@ namespace RestaurantManagementApp.ViewModels
         [RelayCommand]
         private void AddToCart()
         {
-            Item.CartQuantity++;
-            UpdateTotalAmount();
-            _cartViewModel.UpdateCartItemCommand.Execute(Item);
+            if (Item != null)
+            {
+                Item.CartQuantity++;
+                UpdateTotalAmount();
+                var clonedItem = Item.Clone();  // Clone the item to avoid reference issues
+                _cartViewModel.UpdateCartItem(clonedItem);  // Update the cart with the cloned item
+            }
         }
 
         [RelayCommand]
         private void RemoveFromCart()
         {
-            if (Item.CartQuantity > 0)
+            if (Item != null && Item.CartQuantity > 0)
             {
                 Item.CartQuantity--;
                 UpdateTotalAmount();
-                _cartViewModel.UpdateCartItemCommand.Execute(Item);
+                var clonedItem = Item.Clone();
+                _cartViewModel.UpdateCartItem(clonedItem);
             }
         }
 
@@ -53,7 +52,7 @@ namespace RestaurantManagementApp.ViewModels
         private void ShowCustomizationPopup()
         {
             var customizationViewModel = new CustomizationViewModel(_customizationService);
-            customizationViewModel.CustomizationAdded += OnCustomizationAdded; // Subscribe to event
+            customizationViewModel.CustomizationAdded += OnCustomizationAdded;
 
             var popup = new CustomizationPagePopup(customizationViewModel);
             Shell.Current.CurrentPage.ShowPopup(popup);
@@ -68,20 +67,32 @@ namespace RestaurantManagementApp.ViewModels
         {
             if (Item != null)
             {
-                Item.CustomizationPriceTotal += customizationPrice; // Add customization price to the item
-                UpdateTotalAmount(); // Update the total price with customizations
+                Item.CustomizationPriceTotal += customizationPrice;
+                AddCustomizationToCart();
             }
+        }
+        private async void AddCustomizationToCart()
+        {
+            if (Item != null)
+            {
+                
+                UpdateTotalAmount();
+                var clonedItem = Item.Clone();  // Clone the item to avoid reference issues
+                _cartViewModel.UpdateCartItem(clonedItem);  // Update the cart with the cloned item
+            }
+
         }
 
         private void UpdateTotalAmount()
         {
-            TotalAmount = (decimal)(Item?.TotalPriceWithCustomizations ?? 0);
+            TotalAmount = (decimal)Item.Amount + (decimal)Item.CustomizationPriceTotal;
+           
         }
 
         [RelayCommand]
         private async Task ViewCart()
         {
-            if (Item.CartQuantity > 0)
+            if (Item?.CartQuantity > 0)
             {
                 await Shell.Current.GoToAsync(nameof(CartPage), animate: true);
             }
@@ -96,7 +107,7 @@ namespace RestaurantManagementApp.ViewModels
             if (value != null)
             {
                 TotalAmount = (decimal)value.TotalPriceWithCustomizations;
-                value.CustomizationPriceTotal = 0; // Reset customizations for the new item
+                value.CustomizationPriceTotal = 0;  // Reset customizations for the new item
                 ResetCustomizationButtons();
             }
         }
@@ -106,7 +117,7 @@ namespace RestaurantManagementApp.ViewModels
             var customizationViewModel = new CustomizationViewModel(_customizationService);
             foreach (var customization in customizationViewModel.Customization)
             {
-                customization.IsButtonEnabled = true; // Enable all customization buttons
+                customization.IsButtonEnabled = true;
             }
         }
 
@@ -117,7 +128,7 @@ namespace RestaurantManagementApp.ViewModels
             _cartViewModel.CartItemRemoved -= OnCartItemRemoved;
         }
 
-        public void OnCartCleared(object? _, EventArgs e) => Item.CartQuantity = 0;
+        public void OnCartCleared(object? _, EventArgs e) => Item!.CartQuantity = 0;
         public void OnCartItemRemoved(object? _, Item i) => OnCartItemChanged(i, 0);
         public void OnCartItemUpdated(object? _, Item i) => OnCartItemChanged(i, i.CartQuantity);
 

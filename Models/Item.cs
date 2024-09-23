@@ -8,7 +8,7 @@ namespace RestaurantManagementApp.Models
         public string? Image { get; set; }
         public double Price { get; set; }
         public string? Type { get; set; }
-        public double CustomizationPrice { get; set; }
+        public double CustomizedPrice => Amount + (CustomizationPriceTotal * CartQuantity);
 
 
         [ObservableProperty, NotifyPropertyChangedFor(nameof(Amount)), NotifyPropertyChangedFor(nameof(AmountWithDiscount))]

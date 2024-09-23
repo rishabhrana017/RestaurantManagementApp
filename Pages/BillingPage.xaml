@@ -123,7 +123,7 @@
                        VerticalTextAlignment="Center"/>
                         <Label Grid.Row="0"
                        Grid.Column="2"
-                       Text="{Binding Amount}"
+                       Text="{Binding CustomizedPrice}"
                        HorizontalTextAlignment="Center"
                        VerticalTextAlignment="Center"/>
                     </Grid>

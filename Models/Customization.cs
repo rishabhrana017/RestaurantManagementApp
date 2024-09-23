@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace RestaurantManagementApp.Models
+﻿namespace RestaurantManagementApp.Models
 {
    public partial class Customization : ObservableObject
     {
